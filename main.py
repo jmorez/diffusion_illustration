@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 
 
-def simulate_diffusion(n_particles=100, n_steps=200, dt=0.1):
+def simulate_diffusion(n_particles=1000, n_steps=200, dt=0.1):
     """Simulate both isotropic and anisotropic diffusion."""
     # Isotropic diffusion (equal in all directions)
     iso_positions = np.zeros((n_steps, n_particles, 2))
@@ -73,7 +73,7 @@ def main():
 
     # Simulate diffusion
     iso_pos, aniso_pos, barriers = simulate_diffusion(
-        n_particles=100, n_steps=200, dt=0.1
+        n_particles=3000, n_steps=200, dt=0.1
     )
 
     # Set up the figure with 2 rows: particles on top, signal plots below
@@ -107,10 +107,10 @@ def main():
 
     # Initialize scatter plots with initial data
     scatter1 = ax1.scatter(
-        iso_pos[0][:, 0], iso_pos[0][:, 1], c="blue", alpha=0.6, s=20
+        iso_pos[0][:, 0], iso_pos[0][:, 1], c="blue", alpha=0.6, s=10
     )
     scatter2 = ax2.scatter(
-        aniso_pos[0][:, 0], aniso_pos[0][:, 1], c="red", alpha=0.6, s=20
+        aniso_pos[0][:, 0], aniso_pos[0][:, 1], c="red", alpha=0.6, s=10
     )
 
     # Calculate signal attenuation S(t) due to diffusion
