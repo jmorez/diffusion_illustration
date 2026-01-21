@@ -98,10 +98,15 @@ def main(show_signal_plots=True, show_axes=True):
 
     # Initialize scatter plots with initial data
     scatter1 = ax1.scatter(
-        iso_pos[0][:, 0], iso_pos[0][:, 1], c="blue", alpha=0.6, s=10
+        iso_pos[0][:, 0], iso_pos[0][:, 1], c="blue", alpha=0.3, s=10, edgecolors="none"
     )
     scatter2 = ax2.scatter(
-        aniso_pos[0][:, 0], aniso_pos[0][:, 1], c="red", alpha=0.6, s=10
+        aniso_pos[0][:, 0],
+        aniso_pos[0][:, 1],
+        c="red",
+        alpha=0.3,
+        s=10,
+        edgecolors="none",
     )
 
     # Add step counter on ax1
@@ -137,30 +142,29 @@ def main(show_signal_plots=True, show_axes=True):
         )
 
         # Setup signal plots
-        assert ax3 is not None and ax4 is not None
         for ax, title in [(ax3, "Isotropic"), (ax4, "Anisotropic")]:
-            ax.set(
-                xlim=(0, time_steps[-1]),
+            ax.set(  # type: ignore
+                xlim=(0, time_steps[-1]),  # type: ignore
                 ylim=(0, 1.1),
                 xlabel="Time",
                 ylabel="Signal S(t)",
             )
-            ax.set_title(f"{title} Diffusion Signal", fontsize=12, fontweight="bold")
-            ax.grid(True, alpha=0.3)
+            ax.set_title(f"{title} Diffusion Signal", fontsize=12, fontweight="bold")  # type: ignore
+            ax.grid(True, alpha=0.3)  # type: ignore
 
         # Plot background curves and initialize animated lines
-        ax3.plot(time_steps, signal_iso_x, "b--", alpha=0.3, linewidth=1)
-        ax3.plot(time_steps, signal_iso_y, "g--", alpha=0.3, linewidth=1)
-        ax4.plot(time_steps, signal_aniso_x, "r--", alpha=0.3, linewidth=1)
-        ax4.plot(time_steps, signal_aniso_y, "m--", alpha=0.3, linewidth=1)
+        ax3.plot(time_steps, signal_iso_x, "b--", alpha=0.3, linewidth=1)  # type: ignore
+        ax3.plot(time_steps, signal_iso_y, "g--", alpha=0.3, linewidth=1)  # type: ignore
+        ax4.plot(time_steps, signal_aniso_x, "r--", alpha=0.3, linewidth=1)  # type: ignore
+        ax4.plot(time_steps, signal_aniso_y, "m--", alpha=0.3, linewidth=1)  # type: ignore
 
-        (line_iso_x,) = ax3.plot([], [], "b-", linewidth=2, label="X")
-        (line_iso_y,) = ax3.plot([], [], "g-", linewidth=2, label="Y")
-        (line_aniso_x,) = ax4.plot([], [], "r-", linewidth=2, label="X")
-        (line_aniso_y,) = ax4.plot([], [], "m-", linewidth=2, label="Y")
+        (line_iso_x,) = ax3.plot([], [], "b-", linewidth=2, label="X")  # type: ignore
+        (line_iso_y,) = ax3.plot([], [], "g-", linewidth=2, label="Y")  # type: ignore
+        (line_aniso_x,) = ax4.plot([], [], "r-", linewidth=2, label="X")  # type: ignore
+        (line_aniso_y,) = ax4.plot([], [], "m-", linewidth=2, label="Y")  # type: ignore
 
-        ax3.legend(loc="upper right", fontsize=9)
-        ax4.legend(loc="upper right", fontsize=9)
+        ax3.legend(loc="upper right", fontsize=9)  # type: ignore
+        ax4.legend(loc="upper right", fontsize=9)  # type: ignore
 
     def animate(frame):
         scatter1.set_offsets(iso_pos[frame])
@@ -170,25 +174,11 @@ def main(show_signal_plots=True, show_axes=True):
         artists = [scatter1, scatter2, time_text]
 
         if show_signal_plots:
-            assert all(
-                x is not None
-                for x in [
-                    time_steps,
-                    signal_iso_x,
-                    signal_iso_y,
-                    signal_aniso_x,
-                    signal_aniso_y,
-                    line_iso_x,
-                    line_iso_y,
-                    line_aniso_x,
-                    line_aniso_y,
-                ]
-            )
-            t = time_steps[: frame + 1]
-            line_iso_x.set_data(t, signal_iso_x[: frame + 1])
-            line_iso_y.set_data(t, signal_iso_y[: frame + 1])
-            line_aniso_x.set_data(t, signal_aniso_x[: frame + 1])
-            line_aniso_y.set_data(t, signal_aniso_y[: frame + 1])
+            t = time_steps[: frame + 1]  # type: ignore
+            line_iso_x.set_data(t, signal_iso_x[: frame + 1])  # type: ignore
+            line_iso_y.set_data(t, signal_iso_y[: frame + 1])  # type: ignore
+            line_aniso_x.set_data(t, signal_aniso_x[: frame + 1])  # type: ignore
+            line_aniso_y.set_data(t, signal_aniso_y[: frame + 1])  # type: ignore
             artists.extend([line_iso_x, line_iso_y, line_aniso_x, line_aniso_y])
 
         return artists
